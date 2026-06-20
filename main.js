@@ -68,4 +68,41 @@
   window.addEventListener("resize", onScroll);
   window.addEventListener("load", check);
   check(); // reveal whatever is already in view (e.g. the hero)
+
+  // Section scroller: highlight the current section, and flip the dots to
+  // light when they sit over a dark band (thesis / contact) so they stay visible.
+  var navLinks = [].slice.call(document.querySelectorAll(".section-nav a"));
+  if (navLinks.length) {
+    var nav = document.querySelector(".section-nav");
+    var darkEls = [].slice.call(document.querySelectorAll(".thesis, .contact"));
+    var spyTicking = false;
+
+    function absTop(el) { return el.getBoundingClientRect().top + window.scrollY; }
+
+    function spy() {
+      spyTicking = false;
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      var probe = window.scrollY + vh * 0.4;
+      var current = navLinks[0];
+      navLinks.forEach(function (a) {
+        var t = document.querySelector(a.getAttribute("href"));
+        if (t && absTop(t) <= probe) current = a;
+      });
+      navLinks.forEach(function (a) { a.classList.toggle("active", a === current); });
+
+      var centerY = window.scrollY + vh / 2;
+      var onDark = darkEls.some(function (el) {
+        var top = absTop(el);
+        return centerY >= top && centerY < top + el.offsetHeight;
+      });
+      nav.classList.toggle("nav-dark", onDark);
+    }
+
+    function onSpyScroll() {
+      if (!spyTicking) { spyTicking = true; requestAnimationFrame(spy); }
+    }
+    window.addEventListener("scroll", onSpyScroll, { passive: true });
+    window.addEventListener("resize", onSpyScroll);
+    spy();
+  }
 })();
