@@ -27,6 +27,17 @@
     });
   }
 
+  // "To top" links: the header is position:sticky (id="top"), so a plain #top
+  // anchor is treated as already in view and won't scroll. Handle it explicitly.
+  // Covers both the logo home link and the scroller's Top dot.
+  [].slice.call(document.querySelectorAll('a[href="#top"]')).forEach(function (a) {
+    a.addEventListener("click", function (e) {
+      e.preventDefault();
+      var rm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      window.scrollTo({ top: 0, behavior: rm ? "auto" : "smooth" });
+    });
+  });
+
   // Scroll-reveal: fade/rise elements as they enter the viewport.
   var reveals = [].slice.call(document.querySelectorAll(".reveal"));
   var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
