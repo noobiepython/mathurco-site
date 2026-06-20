@@ -234,6 +234,12 @@ a { color: inherit; }
   font-size: 1.12rem;
   max-width: 52ch;
 }
+.leadership-bio {
+  color: var(--ink-soft);
+  font-size: 1.18rem;
+  line-height: 1.6;
+  max-width: 62ch;
+}
 
 /* What we do — clean numbered list */
 .work-list {
