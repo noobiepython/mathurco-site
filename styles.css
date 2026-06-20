@@ -467,7 +467,12 @@ a { color: inherit; }
   font-weight: 600;
 }
 .footer-brand .brand-mark { width: 17px; height: 24px; }
-.footer-legal { color: var(--muted); }
+.footer-legal { color: var(--muted); text-align: right; }
+.footer-reg { display: block; margin-top: 0.3rem; font-size: 0.78rem; }
+@media (max-width: 620px) {
+  .footer-inner { flex-direction: column; gap: 0.7rem; text-align: center; }
+  .footer-legal { text-align: center; }
+}
 
 /* ---------- Section scroller (dot nav) ---------- */
 .section-nav {
