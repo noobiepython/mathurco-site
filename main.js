@@ -27,14 +27,29 @@
     });
   }
 
-  // "To top" links: the header is position:sticky (id="top"), so a plain #top
-  // anchor is treated as already in view and won't scroll. Handle it explicitly.
-  // Covers both the logo home link and the scroller's Top dot.
-  [].slice.call(document.querySelectorAll('a[href="#top"]')).forEach(function (a) {
+  // In-page navigation: smooth-scroll to the section and keep the URL clean
+  // (no "#section" left in the address bar). The header is position:sticky, so
+  // "#top" is handled as a scroll-to-zero rather than an anchor jump.
+  function prefersReduced() {
+    return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
+  [].slice.call(document.querySelectorAll('a[href^="#"]')).forEach(function (a) {
+    if (a.classList.contains("skip-link")) return; // leave skip link native for a11y focus
     a.addEventListener("click", function (e) {
-      e.preventDefault();
-      var rm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      window.scrollTo({ top: 0, behavior: rm ? "auto" : "smooth" });
+      var href = a.getAttribute("href");
+      var behavior = prefersReduced() ? "auto" : "smooth";
+      if (href === "#top") {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: behavior });
+      } else {
+        var target = document.querySelector(href);
+        if (!target) return;
+        e.preventDefault();
+        target.scrollIntoView({ behavior: behavior, block: "start" });
+      }
+      if (history.replaceState) {
+        history.replaceState(null, "", location.pathname + location.search);
+      }
     });
   });
 
