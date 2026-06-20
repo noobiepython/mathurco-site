@@ -7,7 +7,7 @@
 :root {
   --ink:        #17191e;   /* near-black — text & dark sections */
   --ink-soft:   #3c4149;
-  --muted:      #767c85;   /* labels, secondary text */
+  --muted:      #5e6670;   /* labels, secondary text — AA contrast on light */
   --paper:      #ffffff;
   --paper-2:    #f5f4f1;   /* one warm off-white band */
   --line:       #e7e6e1;   /* hairlines */
@@ -447,8 +447,8 @@ a { color: inherit; }
 }
 .section-nav a {
   position: relative;
-  width: 14px;
-  height: 14px;
+  width: 24px;
+  height: 24px;
   display: grid;
   place-items: center;
 }
